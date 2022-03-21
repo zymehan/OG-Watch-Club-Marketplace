@@ -144,6 +144,7 @@ function NFTTokenIds({ inputValue, setInputValue }) {
       obj.set("owner", walletAddress);
       obj.save();
     });
+    console.log("buyer:", walletAddress);
   }
 
   const getMarketItem = (nft) => {

@@ -17,7 +17,7 @@ export const networkCollections = {
       image:
         "https://ipfs.io/ipfs/QmQ3kpiWe47tBeoFfzwhPqLz3UMZmSv9dP9fk63UQ3xS3H/1.jpg",
       name: "OG Watch Club Genesis",
-      addrs: "0xC796E489FAC73c7562EC32489DD7bB9299aD8aA8",
+      addrs: "0xFB21cBCe29a88736863e2c5D73DfCBb04a5f3544",
     },
   ],
 
