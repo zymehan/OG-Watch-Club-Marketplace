@@ -18,6 +18,8 @@ import NativeBalance from "components/NativeBalance";
 import "./style.css";
 // import Text from "antd/lib/typography/Text";
 import NFTMarketTransactions from "components/NFTMarketTransactions";
+import AboutOG from "components/AboutOG";
+
 const { Header, Footer } = Layout;
 
 const styles = {
@@ -103,6 +105,9 @@ const App = ({ isServerInfo }) => {
         </Header>
         <div style={styles.content}>
           <Switch>
+            <Route path="/WhatIsOG">
+              <AboutOG />
+            </Route>
             <Route path="/nftBalance">
               <NFTBalance />
             </Route>

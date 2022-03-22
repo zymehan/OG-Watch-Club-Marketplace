@@ -86,7 +86,6 @@ function NFTMarketTransactions() {
         <>
           {
             tags.map((tag) => {
-              console.log(tag);
               let color = "geekblue";
               let status = "BUY";
               
