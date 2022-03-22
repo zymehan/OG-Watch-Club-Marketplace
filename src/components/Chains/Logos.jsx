@@ -65,7 +65,7 @@ export const PolygonLogo = () => (
 );
 
 export const PolygonCurrency = () => (
-<svg width="18" height="18" viewBox="0 -16 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="18" height="18" viewBox="0 -16 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M29,10.2c-0.7-0.4-1.6-0.4-2.4,0L21,13.5l-3.8,2.1l-5.5,3.3c-0.7,0.4-1.6,0.4-2.4,0L5,16.3
       c-0.7-0.4-1.2-1.2-1.2-2.1v-5c0-0.8,0.4-1.6,1.2-2.1l4.3-2.5c0.7-0.4,1.6-0.4,2.4,0L16,7.2c0.7,0.4,1.2,1.2,1.2,2.1v3.3l3.8-2.2V7

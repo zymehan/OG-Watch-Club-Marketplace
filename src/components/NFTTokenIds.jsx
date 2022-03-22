@@ -144,7 +144,6 @@ function NFTTokenIds({ inputValue, setInputValue }) {
       obj.set("owner", walletAddress);
       obj.save();
     });
-    console.log("buyer:", walletAddress);
   }
 
   const getMarketItem = (nft) => {
@@ -153,7 +152,8 @@ function NFTTokenIds({ inputValue, setInputValue }) {
         e.nftContract === nft?.token_address &&
         e.tokenId === nft?.token_id &&
         e.sold === false &&
-        e.isActive === true
+        e.isActive === true &&
+        e.confirmed === true
     );
     
     return result;
