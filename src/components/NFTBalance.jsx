@@ -22,7 +22,7 @@ const styles = {
 
 function NFTBalance() {
   const { NFTBalance, fetchSuccess } = useNFTBalance();
-  const { chainId, marketAddress, contractABI, walletAddress } = useMoralisDapp();
+  const { chainId, marketAddress, contractABI } = useMoralisDapp();
   const { Moralis } = useMoralis();
   const [visible, setVisibility] = useState(false);
   const [nftToSell, setNftToSell] = useState(null);
@@ -204,7 +204,7 @@ function NFTBalance() {
               }
               key={index}
             >
-              <Meta title={nft.name} description={nft.contract_type} />
+              <Meta title={`${nft.name} #${nft.token_id}`} /* description={nft.contract_type} */ />
             </Card>
           ))}
       </div>

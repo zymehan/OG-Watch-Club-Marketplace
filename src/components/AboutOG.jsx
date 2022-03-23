@@ -6,7 +6,7 @@ import png_Bear from '../media/bear.png';
 import png_Watch from '../media/watch2.png';
 import png_Party from '../media/party.png';
   
-const { Header, Footer, Content } = Layout;
+const { Footer, Content } = Layout;
 const styles = {
 	title: {
 		fontFamily: "Berlin Sans FB",
