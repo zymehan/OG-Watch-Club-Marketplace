@@ -1,24 +1,19 @@
 import { useEffect, useState} from "react";
 import { useMoralis } from "react-moralis";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  NavLink,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, NavLink, Redirect } from "react-router-dom";
 import Account from "components/Account";
 import Chains from "components/Chains";
 import NFTBalance from "components/NFTBalance";
 import NFTTokenIds from "components/NFTTokenIds";
 import { Menu, Layout} from "antd";
 import SearchCollections from "components/SearchCollections";
-import "antd/dist/antd.css";
 import NativeBalance from "components/NativeBalance";
-import "./style.css";
-// import Text from "antd/lib/typography/Text";
 import NFTMarketTransactions from "components/NFTMarketTransactions";
 import AboutOG from "components/AboutOG";
+import ClaimMyWatch from "components/ClaimMyWatch";
+
+import "antd/dist/antd.css";
+import "./style.css";
 
 const { Header, Footer } = Layout;
 
@@ -53,10 +48,9 @@ const styles = {
   },
 };
 const App = ({ isServerInfo }) => {
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
-    useMoralis();
-
+  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } = useMoralis();
   const [inputValue, setInputValue] = useState("explore");
+  const [currentPage, setCurrentPage] = useState("nftMarket");
 
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
@@ -69,17 +63,16 @@ const App = ({ isServerInfo }) => {
         <Header style={styles.header}>
           {/* <Logo /> */}
           <SearchCollections setInputValue={setInputValue}/>
-          <Menu
-            theme="light"
-            mode="horizontal"
-            style={{
-              display: "flex",
-              fontSize: "17px",
-              fontWeight: "500",
-              marginLeft: "50px",
-              width: "100%",
-            }}
-            defaultSelectedKeys={["nftMarket"]}
+          <Menu theme="light"
+                mode="horizontal"
+                style={{
+                  display: "flex",
+                  fontSize: "17px",
+                  fontWeight: "500",
+                  marginLeft: "50px",
+                  width: "100%",
+                }}
+                defaultSelectedKeys={[currentPage]}
           >
             <Menu.Item key="whatIsOg">
               <NavLink to="/WhatIsOG">❓ What is <span className="font-link1">OG</span>?</NavLink>
@@ -116,6 +109,9 @@ const App = ({ isServerInfo }) => {
             </Route>
             <Route path="/Transactions">
               <NFTMarketTransactions />
+            </Route>
+            <Route path="/Claim_Watch">
+              <ClaimMyWatch />
             </Route>
           </Switch>
           <Redirect to="/NFTMarketPlace" />
