@@ -76,6 +76,16 @@ function NFTTokenIds({ inputValue, setInputValue }) {
   );
   const purchaseItemFunction = "sellMarketItem";
   const NFTCollections = getCollectionsByChain(chainId);
+  const ItemImage = Moralis.Object.extend("ItemImages");
+  const queryItemImages = useMoralisQuery("ItemImages");
+  const fetchItemImages = JSON.parse(
+    JSON.stringify(queryItemImages.data, [
+      "nftContract",
+      "tokenId",
+      "name",
+      "image",
+    ])
+  );
 
   async function purchase() {
     setLoading(true);
@@ -99,6 +109,7 @@ function NFTTokenIds({ inputValue, setInputValue }) {
         setLoading(false);
         setVisibility(false);
         updateSoldMarketItem();
+        addItemImage();
         succPurchase();
       },
       onError: (error) => {
@@ -144,6 +155,20 @@ function NFTTokenIds({ inputValue, setInputValue }) {
       obj.set("owner", walletAddress);
       obj.save();
     });
+  }
+
+  function addItemImage() {
+    const imgExist = fetchItemImages.find((element) => element.nftContract === nftToBuy.token_address && element.tokenId === nftToBuy.token_id);
+    if (imgExist !== undefined) return;
+
+    const itemImage = new ItemImage();
+
+    itemImage.set("image", nftToBuy.image);
+    itemImage.set("nftContract", nftToBuy.token_address);
+    itemImage.set("tokenId", nftToBuy.token_id);
+    itemImage.set("name", nftToBuy.name);
+
+    itemImage.save();
   }
 
   const getMarketItem = (nft) => {

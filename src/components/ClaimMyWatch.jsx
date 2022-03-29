@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Layout, Button } from 'antd';
+import { Layout, Button, Modal, Input } from 'antd';
 import styled from 'styled-components';
 
 import png_watch_bear from '../media/watch_bear.png';
@@ -89,7 +89,7 @@ const ClaimMyWatch = (props) => {
 					</Content>
 					<Content>
 						<div style={styles.step}>
-							1. After verifying your NFT on <NavLink to="/nftBalance">Your Collection</NavLink> page, simply enter your shipping information and we will ship your watch to you for free!
+							1. After verifying your NFT on <NavLink to="/nftBalance" onClick={ () => props.setCurrentPage("nft") }>Your Collection</NavLink> page, simply enter your shipping information and we will ship your watch to you for free!
 						</div>
 						<div style={styles.step}>
 							2. Your NFT will then be temporarily ineligible for resale. During this time, you can wear your watch around and show off how cool it is. This will increase the popularity of OGWC, and ultimately lead to more DAO treasury rewards for you.
@@ -108,13 +108,46 @@ const ClaimMyWatch = (props) => {
 				<Footer>
 					<div style={styles.footer}>
 						<ButtonContainer>
-							<Button type="primary" style={styles.btn_claim} className="btn-">
+							<Button type="primary" style={styles.btn_claim}>
 								Claim my WATCH
 							</Button>
 						</ButtonContainer>
 					</div>
 				</Footer>
 			</Layout>
+
+			<Modal
+        title={`List ${nftToSell?.name} #${nftToSell?.token_id} For Sale`}
+        visible={visible}
+        onCancel={() => setVisibility(false)}
+        onOk={() => list(nftToSell, price)}
+        okText="List"
+        footer={[
+          <Button onClick={() => setVisibility(false)}>
+            Cancel
+          </Button>,
+          <Button onClick={() => approveAll(nftToSell)} type="primary">
+            Approve
+          </Button>,
+          <Button onClick={() => list(nftToSell, price)} type="primary">
+            List
+          </Button>
+        ]}
+      >
+        <Spin spinning={loading}>
+          <img
+            src={`${nftToSell?.image}`}
+            style={{
+              width: "250px",
+              margin: "auto",
+              borderRadius: "10px",
+              marginBottom: "15px",
+            }}
+            alt=""
+          />
+          <Input autoFocus placeholder="Listing Price in MATIC" onChange={(e) => setPrice(e.target.value)} />
+        </Spin>
+      </Modal>
 		</>
 	)
 }

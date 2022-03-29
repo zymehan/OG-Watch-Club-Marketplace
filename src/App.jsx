@@ -72,22 +72,23 @@ const App = ({ isServerInfo }) => {
                   marginLeft: "50px",
                   width: "100%",
                 }}
+                selectedKeys={[currentPage]}
                 defaultSelectedKeys={[currentPage]}
           >
             <Menu.Item key="whatIsOg">
-              <NavLink to="/WhatIsOG">❓ What is <span className="font-link1">OG</span>?</NavLink>
+              <NavLink to="/WhatIsOG" onClick={ () => setCurrentPage("whatIsOg") }>❓ What is <span className="font-link1">OG</span>?</NavLink>
             </Menu.Item>
             <Menu.Item key="nftMarket" onClick={() => setInputValue("explore")} >
-              <NavLink to="/NFTMarketPlace">🛒 Explore Market</NavLink>
+              <NavLink to="/NFTMarketPlace" onClick={ () => setCurrentPage("nftMarket") }>🛒 Explore Market</NavLink>
             </Menu.Item>
             <Menu.Item key="nft">
-              <NavLink to="/nftBalance">🖼 Your Collection</NavLink>
+              <NavLink to="/nftBalance" onClick={ () => setCurrentPage("nft") }>🖼 Your Collection</NavLink>
             </Menu.Item>
             <Menu.Item key="transactions">
-              <NavLink to="/Transactions">📑 Your Transactions</NavLink>
+              <NavLink to="/Transactions" onClick={ () => setCurrentPage("transactions") }>📑 Your Transactions</NavLink>
             </Menu.Item>
             <Menu.Item key="claim_watch">
-              <NavLink to="/Claim_Watch">⌚ Claim My Watch</NavLink>
+              <NavLink to="/Claim_Watch" onClick={ () => setCurrentPage("claim_watch") }>⌚ Claim My Watch</NavLink>
             </Menu.Item>
           </Menu>
           <div style={styles.headerRight}>
@@ -101,17 +102,17 @@ const App = ({ isServerInfo }) => {
             <Route path="/WhatIsOG">
               <AboutOG />
             </Route>
-            <Route path="/nftBalance">
-              <NFTBalance />
-            </Route>
             <Route path="/NFTMarketPlace">
               <NFTTokenIds inputValue={inputValue} setInputValue={setInputValue}/>
+            </Route>
+            <Route path="/nftBalance">
+              <NFTBalance />
             </Route>
             <Route path="/Transactions">
               <NFTMarketTransactions />
             </Route>
             <Route path="/Claim_Watch">
-              <ClaimMyWatch />
+              <ClaimMyWatch setCurrentPage={setCurrentPage} />
             </Route>
           </Switch>
           <Redirect to="/NFTMarketPlace" />

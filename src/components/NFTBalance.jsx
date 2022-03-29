@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisQuery } from "react-moralis";
 import { Card, Image, Tooltip, Modal, Input, Alert, Spin, Button } from "antd";
 import { useNFTBalance } from "hooks/useNFTBalance";
 import { FileSearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
@@ -26,14 +26,30 @@ function NFTBalance() {
   const { Moralis } = useMoralis();
   const [visible, setVisibility] = useState(false);
   const [nftToSell, setNftToSell] = useState(null);
-  const [price, setPrice] = useState(1);
+  const [price, setPrice] = useState(0);
   const [loading, setLoading] = useState(false);
   const contractProcessor = useWeb3ExecuteFunction();
   const contractABIJson = JSON.parse(contractABI);
   const listItemFunction = "createMarketItem";
   const ItemImage = Moralis.Object.extend("ItemImages");
+  const queryItemImages = useMoralisQuery("ItemImages");
+  const fetchItemImages = JSON.parse(
+    JSON.stringify(queryItemImages.data, [
+      "nftContract",
+      "tokenId",
+      "name",
+      "image",
+    ])
+  );
 
   async function list(nft, listPrice) {
+    if (price === 0) {
+      Modal.error({
+        title: "Error!",
+        content: `Input the correct price`,
+      });
+      return;
+    }
     setLoading(true);
     const p = listPrice * ("1e" + 18);
     const ops = {
@@ -140,6 +156,9 @@ function NFTBalance() {
   }
 
   function addItemImage() {
+    const imgExist = fetchItemImages.find((element) => element.nftContract === nftToSell.token_address && element.tokenId === nftToSell.token_id);
+    if (imgExist !== undefined) return;
+
     const itemImage = new ItemImage();
 
     itemImage.set("image", nftToSell.image);
@@ -210,6 +229,7 @@ function NFTBalance() {
       </div>
 
       <Modal
+        key={"modal"}
         title={`List ${nftToSell?.name} #${nftToSell?.token_id} For Sale`}
         visible={visible}
         onCancel={() => setVisibility(false)}
