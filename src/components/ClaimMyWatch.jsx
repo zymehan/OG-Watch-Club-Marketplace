@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Layout, Button, Modal, Input } from 'antd';
 import styled from 'styled-components';
@@ -73,6 +73,12 @@ const ButtonContainer = styled.div`
 `
 
 const ClaimMyWatch = (props) => {
+	const [visible, setVisibility] = useState(false);
+	const [postAddy, setPostAddy] = useState("");
+
+	const saveClientPostOffice = () => {
+
+	}
 
 	return (
 		<>
@@ -117,37 +123,24 @@ const ClaimMyWatch = (props) => {
 			</Layout>
 
 			<Modal
-        title={`List ${nftToSell?.name} #${nftToSell?.token_id} For Sale`}
-        visible={visible}
-        onCancel={() => setVisibility(false)}
-        onOk={() => list(nftToSell, price)}
-        okText="List"
-        footer={[
-          <Button onClick={() => setVisibility(false)}>
-            Cancel
-          </Button>,
-          <Button onClick={() => approveAll(nftToSell)} type="primary">
-            Approve
-          </Button>,
-          <Button onClick={() => list(nftToSell, price)} type="primary">
-            List
-          </Button>
-        ]}
-      >
-        <Spin spinning={loading}>
-          <img
-            src={`${nftToSell?.image}`}
-            style={{
-              width: "250px",
-              margin: "auto",
-              borderRadius: "10px",
-              marginBottom: "15px",
-            }}
-            alt=""
-          />
-          <Input autoFocus placeholder="Listing Price in MATIC" onChange={(e) => setPrice(e.target.value)} />
-        </Spin>
-      </Modal>
+				title={`Input your post office address for shiping your watch`}
+				visible={visible}
+				onCancel={() => setVisibility(false)}
+				onOk={() => saveClientPostOffice()}
+				okText="List"
+				footer={[
+				<Button onClick={() => setVisibility(false)}>
+					Cancel
+				</Button>,
+				<Button onClick={() => saveClientPostOffice()} type="primary">
+					Agree
+				</Button>
+				]}
+			>
+				<p>After receive your OG watch once, you cannot resale your NFT on this marketplace.</p>
+				<p>You should simply ship the watch back to us.</p>
+				<Input autoFocus placeholder="Input your post office address" onChange={(e) => setPostAddy(e.target.value)} />
+			</Modal>
 		</>
 	)
 }
