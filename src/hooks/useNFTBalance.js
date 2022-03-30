@@ -9,6 +9,7 @@ export const useNFTBalance = (options) => {
   const { chainId } = useMoralisDapp();
   const { resolveLink } = useIPFS();
   const [NFTBalance, setNFTBalance] = useState([]);
+  const [NFTBalanceLen, setNFTBalanceLen] = useState(0);
   const {
     fetch: getNFTBalance,
     data,
@@ -60,11 +61,12 @@ export const useNFTBalance = (options) => {
           }
         }
         setNFTBalance(NFTs);
+        setNFTBalanceLen(NFTs.length);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }
     fetchData();
   }, [data]);
 
-  return { getNFTBalance, NFTBalance, fetchSuccess, error, isLoading };
+  return { getNFTBalance, NFTBalance, fetchSuccess, error, isLoading, NFTBalanceLen };
 };

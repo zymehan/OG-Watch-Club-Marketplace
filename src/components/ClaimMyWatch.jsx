@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Layout, Button, Modal, Input } from 'antd';
 import styled from 'styled-components';
+import { useMoralis, useMoralisQuery } from "react-moralis";
+import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
+import { useNFTBalance } from "hooks/useNFTBalance";
 
 import png_watch_bear from '../media/watch_bear.png';
 
@@ -73,28 +76,58 @@ const ButtonContainer = styled.div`
 `
 
 const ClaimMyWatch = (props) => {
+	const { Moralis } = useMoralis();
+  const { walletAddress } = useMoralisDapp();
+  const { NFTBalance, NFTBalanceLen } = useNFTBalance();
 	const [visible, setVisibility] = useState(false);
 	const [postAddy, setPostAddy] = useState("");
+	const PostOfficeBox = Moralis.Object.extend("PostOfficeBoxes");
 
 	const saveClientPostOffice = () => {
+		if (NFTBalanceLen === 0) {
+			const modal = Modal.error({
+				title: "Error!",
+				content: `You haven't any NFT. You can buy OG NFT on marketplace.`,
+			});
+			return;
+		}
 
+		if (postAddy === "") {
+			const modal = Modal.error({
+				title: "Error!",
+				content: `Please input your post office box`,
+			});
+			return;
+		}
+		
+		const item = new PostOfficeBox();
+
+		item.set("ClientWallet", walletAddress);
+		item.set("PostOfficeBox", postAddy);
+		item.save();
+
+		const modal = Modal.info({
+			title: "Success!",
+			content: `Your post office box is saved successfully`,
+		});
+		setVisibility(false);
 	}
 
 	return (
 		<>
 			<Layout>
-				<Content>
+				<Content key={"title"}>
 					<div style={styles.title}>
 						We hope you love your watch (and treat it with care)
 						<img src={png_watch_bear} alt="" style={styles.png_watch_bear} />
 					</div>
 				</Content>
 				<Layout>
-					<Content>
+					<Content key={"description"}>
 						<div style={styles.desc}>How it works:</div>
 					</Content>
-					<Content>
-						<div style={styles.step}>
+					<Content key={"content"}>
+						<div style={styles.step} key={"1"}>
 							1. After verifying your NFT on <NavLink to="/nftBalance" onClick={ () => props.setCurrentPage("nft") }>Your Collection</NavLink> page, simply enter your shipping information and we will ship your watch to you for free!
 						</div>
 						<div style={styles.step}>
@@ -114,7 +147,7 @@ const ClaimMyWatch = (props) => {
 				<Footer>
 					<div style={styles.footer}>
 						<ButtonContainer>
-							<Button type="primary" style={styles.btn_claim}>
+							<Button type="primary" style={styles.btn_claim} onClick={() => setVisibility(true)}>
 								Claim my WATCH
 							</Button>
 						</ButtonContainer>
@@ -129,16 +162,16 @@ const ClaimMyWatch = (props) => {
 				onOk={() => saveClientPostOffice()}
 				okText="List"
 				footer={[
-				<Button onClick={() => setVisibility(false)}>
-					Cancel
-				</Button>,
-				<Button onClick={() => saveClientPostOffice()} type="primary">
-					Agree
-				</Button>
+					<Button onClick={() => setVisibility(false)}>
+						Cancel
+					</Button>,
+					<Button onClick={() => saveClientPostOffice()} type="primary">
+						Agree
+					</Button>
 				]}
 			>
 				<p>After receive your OG watch once, you cannot resale your NFT on this marketplace.</p>
-				<p>You should simply ship the watch back to us.</p>
+				<p style={{ marginBottom: "15px"}}>If you want to resale your NFT on our marketplace, you should simply ship the watch back to us.</p>
 				<Input autoFocus placeholder="Input your post office address" onChange={(e) => setPostAddy(e.target.value)} />
 			</Modal>
 		</>
