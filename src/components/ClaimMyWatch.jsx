@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Layout, Button, Modal, Input } from 'antd';
 import styled from 'styled-components';
-import { useMoralis, useMoralisQuery } from "react-moralis";
+import { useMoralis } from "react-moralis";
 import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
 import { useNFTBalance } from "hooks/useNFTBalance";
 
@@ -78,14 +78,14 @@ const ButtonContainer = styled.div`
 const ClaimMyWatch = (props) => {
 	const { Moralis } = useMoralis();
   const { walletAddress } = useMoralisDapp();
-  const { NFTBalance, NFTBalanceLen } = useNFTBalance();
+  const { NFTBalanceLen } = useNFTBalance();
 	const [visible, setVisibility] = useState(false);
 	const [postAddy, setPostAddy] = useState("");
 	const PostOfficeBox = Moralis.Object.extend("PostOfficeBoxes");
 
 	const saveClientPostOffice = () => {
 		if (NFTBalanceLen === 0) {
-			const modal = Modal.error({
+			Modal.error({
 				title: "Error!",
 				content: `You haven't any NFT. You can buy OG NFT on marketplace.`,
 			});
@@ -93,7 +93,7 @@ const ClaimMyWatch = (props) => {
 		}
 
 		if (postAddy === "") {
-			const modal = Modal.error({
+			Modal.error({
 				title: "Error!",
 				content: `Please input your post office box`,
 			});
@@ -106,7 +106,7 @@ const ClaimMyWatch = (props) => {
 		item.set("PostOfficeBox", postAddy);
 		item.save();
 
-		const modal = Modal.info({
+		Modal.info({
 			title: "Success!",
 			content: `Your post office box is saved successfully`,
 		});

@@ -1,5 +1,6 @@
 import React from "react";
-import { Layout } from 'antd';
+import { Layout, Button } from 'antd';
+import styled from 'styled-components';
 
 import png_Polygon from '../media/polygon.png';
 import png_Bear from '../media/bear.png';
@@ -49,8 +50,33 @@ const styles = {
 		color: "#000000",
 		marginLeft: "50px",
 		marginTop: "50px", 
+	},
+	btn_discord: {
+		fontFamily: "Berlin Sans FB",
+		fontSize: "30px",
+		height: "70px",
+		paddingLeft: "30px",
+		paddingRight: "30px",
+		marginLeft: "20px",
+		borderRadius: "30px"
 	}
 }
+const ButtonContainer = styled.div`
+	display: inline-block;
+	.ant-btn-primary {
+		background-color: #aa88ff;
+		border-color: #aa88ff;
+		color: #000;
+	}
+	.ant-btn-primary:hover {
+		background-color: #b99dff;
+		border-color: #b99dff;
+	}
+	.ant-btn-primary:active {
+		border-color: #966cff;
+		background: #966cff;
+	}
+`
 
 const AboutOG = (props) => {
 
@@ -65,6 +91,13 @@ const AboutOG = (props) => {
 					<Content>
 						<div style={styles.step}>
 							Step 1: Join our Discord
+							<ButtonContainer>
+								<Button type="primary" style={styles.btn_discord}>
+									<a href="https://discordapp.com/channels/@me/945403316580544583/955496343298801726" target="_blank">
+										Grizzly Discord
+									</a>
+								</Button>
+							</ButtonContainer>
 						</div>
 					</Content>
 					<Content>
